@@ -1,4 +1,4 @@
-# Zebra
+# zebra
 
 A Clojure wrapper for Stripe.
 
@@ -9,27 +9,15 @@ Inspired by clojurewerkz/elephant: https://github.com/clojurewerkz/elephant
 Add the following to your `project.clj` file:
 
 ```clj
-[b-social/zebra "0.1.12"]
+[io.logicblocks/zebra "0.2.0-RC0"]
 ```
 
 ## Documentation
 
-* [API Docs](http://b-social.github.io/zebra)
-
-## Usage
-
-TODO: Add usage.
-
-## Development
-
-### Run tests
-`lein test`
-
-### Run linting
-`lein eastwood`
+* [API Docs](http://logicblocks.github.io/zebra)
 
 ## License
 
-Copyright © 2020 B-Social Ltd.
+Copyright © 2023 LogicBlocks Maintainers.
 
 Distributed under the MIT license.

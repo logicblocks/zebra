@@ -9,6 +9,10 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+
+- This library was forked from `b-social/zebra`
+
 ## [0.1.12] — 2020-05-21
 
 ## [0.1.11] — 2020-05-05
