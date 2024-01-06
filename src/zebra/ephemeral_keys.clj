@@ -1,7 +1,6 @@
 (ns zebra.ephemeral-keys
   (:refer-clojure :exclude [list update])
-  (:require [zebra.utils :refer [transform-params
-                                 transform-type-data]])
+  (:require [zebra.utils :refer [transform-params]])
   (:import [com.stripe.model EphemeralKey EphemeralKey$AssociatedObject]
            [com.stripe.net RequestOptions]
            [java.util Map]))

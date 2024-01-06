@@ -22,8 +22,8 @@
   (let [payment-method (payment-methods/create
                          {:type "card"
                           :card {:number    "4242424242424242"
-                                 :exp_month "7"
-                                 :exp_year  "2020"
+                                 :exp_month "12"
+                                 :exp_year  "2034"
                                  :cvc       "314"}} api-key)
         confirmed-payment-intent (payment-intent/create
                                    {:amount               2000
@@ -51,8 +51,8 @@
                          {:type "card"
                           :card {;; A 3D Secure 2 card
                                  :number    "4000000000003220"
-                                 :exp_month "7"
-                                 :exp_year  "2020"
+                                 :exp_month "12"
+                                 :exp_year  "2034"
                                  :cvc       "314"}} api-key)
         payment-intent (payment-intent/create
                          {:amount               1234
@@ -136,8 +136,8 @@
   (let [payment-method (payment-methods/create
                          {:type "card"
                           :card {:number    "4242424242424242"
-                                 :exp_month "7"
-                                 :exp_year  "2020"
+                                 :exp_month "12"
+                                 :exp_year  "2034"
                                  :cvc       "314"}} api-key)
         payment-intent (payment-intent/create
                          {:amount               1234
@@ -148,9 +148,9 @@
                          api-key)
         confirmed-intent (payment-intent/confirm (:id payment-intent) api-key)]
     (is (= (:status payment-intent) "requires_confirmation")
-        "Intent has not yet been confirmed")
+      "Intent has not yet been confirmed")
     (is (= (:id confirmed-intent)
-           (:id payment-intent))
-        "Confirmed intent and pending intent have same id")
+          (:id payment-intent))
+      "Confirmed intent and pending intent have same id")
     (is (= (:status confirmed-intent) "succeeded")
-        "Confirming the intent has caused it to succeed")))
+      "Confirming the intent has caused it to succeed")))

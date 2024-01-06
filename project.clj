@@ -25,6 +25,8 @@
    {:dependencies
     [[org.clojure/clojure "1.11.1"]
 
+     [nrepl "1.1.0"]
+
      [eftest "0.6.0"]]}
 
    :dev
@@ -69,6 +71,7 @@
 
   :codox
   {:namespaces  [#"^zebra\."]
+   :metadata    {:doc/format :markdown}
    :output-path "docs"
    :source-uri  "https://github.com/logicblocks/zebra/blob/{version}/{filepath}#L{line}"}
 
