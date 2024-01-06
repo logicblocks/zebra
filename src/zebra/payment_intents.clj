@@ -1,10 +1,17 @@
 (ns zebra.payment-intents
   (:refer-clojure :exclude [update])
-  (:require [zebra.utils :refer [transform-params]])
+  (:require
+   [clojure.walk :refer [keywordize-keys]]
+   [zebra.charges :as charges]
+   [zebra.utils :refer [transform-params]])
   (:import
-   [com.stripe.model PaymentIntent PaymentIntent$NextAction]
-   [com.stripe.net RequestOptions]
-   [java.util Map]))
+   (com.stripe.model
+     PaymentIntent
+     PaymentIntent$NextAction)
+   (com.stripe.net
+     RequestOptions)
+   (java.util
+     Map)))
 
 (defn- ^RequestOptions request-options [api-key]
   (->
@@ -12,27 +19,39 @@
     (.setApiKey api-key)
     (.build)))
 
-(defn next-action->map [^PaymentIntent$NextAction next-action]
+(defn next-action->map
+  [^PaymentIntent$NextAction next-action]
   (merge
     {:type (.getType next-action)}
     (when-let [redirect-to-url (.getRedirectToUrl next-action)]
       {:redirect_to_url {:return_url (.getReturnUrl redirect-to-url)
                          :url        (.getUrl redirect-to-url)}})))
 
-(defn payment-intent->map [^PaymentIntent x]
+(defn payment-intent->map
+  [^PaymentIntent intent]
   (merge
-    {:id                   (.getId x)
-     :object               (.getObject x)
-     :status               (.getStatus x)
-     :description          (.getDescription x)
-     :statement_descriptor (.getStatementDescriptor x)
-     :confirmation_method  (.getConfirmationMethod x)
-     :payment_method_types (vec (.getPaymentMethodTypes x))
-     :amount               (.getAmount x)
-     :currency             (.getCurrency x)
-     :payment_method       (.getPaymentMethod x)
-     :client_secret        (.getClientSecret x)}
-    (when-let [next-action (.getNextAction x)]
+    {:id (.getId intent)
+     :customer (.getCustomer intent)
+     :object (.getObject intent)
+     :status (.getStatus intent)
+     :charges (map charges/charge->map
+                (when
+                 (.getCharges intent)
+                  (.getData (.getCharges intent))))
+     :description (.getDescription intent)
+     :statement_descriptor (.getStatementDescriptor intent)
+     :confirmation_method (.getConfirmationMethod intent)
+     :payment_method_types (vec (.getPaymentMethodTypes intent))
+     :amount (.getAmount intent)
+     :amount_capturable (.getAmountCapturable intent)
+     :amount_received (.getAmountReceived intent)
+     :currency (.getCurrency intent)
+     :payment_method (.getPaymentMethod intent)
+     :client_secret (.getClientSecret intent)
+     :capture_method (.getCaptureMethod intent)
+     :metadata (keywordize-keys
+                 (into {} (.getMetadata intent)))}
+    (when-let [next-action (.getNextAction intent)]
       {:next_action
        (next-action->map next-action)})))
 

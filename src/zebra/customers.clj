@@ -1,25 +1,35 @@
 (ns zebra.customers
   (:refer-clojure :exclude [list update])
-  (:require [zebra.sources :refer [source->map]]
-            [zebra.payment-methods :refer [payment-method->map]])
-  (:import [com.stripe.model Customer PaymentMethod PaymentSourceCollection]
-           [com.stripe.net RequestOptions]
-           [java.util Map]))
+  (:require
+   [zebra.payment-methods :refer [payment-method->map]]
+   [zebra.sources :refer [source->map]]
+   [zebra.utils :refer [transform-params]])
+  (:import
+   (com.stripe.model
+     Customer
+     PaymentMethod
+     PaymentSourceCollection)
+   (com.stripe.net
+     RequestOptions)
+   (java.util
+     Map)))
+
 (defn- ^RequestOptions request-options [api-key]
   (->
     (RequestOptions/builder)
     (.setApiKey api-key)
     (.build)))
 
-(defn customer->map [^Customer customer]
+(defn customer->map
+  [^Customer customer]
   {:id       (.getId customer)
    :metadata (.getMetadata customer)
    :sources  (.getSources customer)})
 
 (defn create
   ([api-key]
-   (create api-key {}))
-  ([api-key ^Map params]
+   (create {} api-key))
+  ([^Map params api-key]
    (customer->map
      (Customer/create params
        (request-options api-key)))))
@@ -31,16 +41,16 @@
       (request-options api-key))))
 
 (defn attach-source
-  [customer-id source-id api-key]
-  (let [params {"source" source-id}
-        request-options (request-options api-key)
-        customer (Customer/retrieve customer-id
-                   request-options)
+  [^String customer-id source-id api-key]
+  (let [request-options (request-options api-key)
+        customer-params ^Map (transform-params {:expand ["sources"]})
+        customer (Customer/retrieve customer-id customer-params request-options)
+        source-params {"source" source-id}
         sources (.getSources customer)]
     (source->map
       (.create
         ^PaymentSourceCollection sources
-        ^Map params
+        ^Map source-params
         ^RequestOptions request-options))))
 
 (defn attach-payment-method

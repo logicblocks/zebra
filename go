@@ -33,11 +33,6 @@ echo "Checking for system dependencies."
     missing_dependency="yes"
   fi
 
-  if ! type bundler >/dev/null 2>&1; then
-    echo "This codebase requires Bundler."
-    missing_dependency="yes"
-  fi
-
   if [[ "$missing_dependency" = "yes" ]]; then
     echo "Please install missing dependencies to continue."
     exit 1

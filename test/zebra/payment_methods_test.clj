@@ -1,16 +1,16 @@
 (ns zebra.payment-methods-test
-  (:require [clojure.test :refer :all]
-            [zebra.payment-methods :refer [create retrieve]]
-            [zebra.helpers.constants :refer [api-key tokens]]))
+  (:require
+   [clojure.test :refer :all]
+   [zebra.helpers.constants :refer [api-key tokens]]
+   [zebra.payment-methods :refer [create retrieve]]))
 
 (deftest create-payment-method
   (let [payment-method (create
                          {:type "card"
                           :card {:number    "4242424242424242"
-                                 :exp_month "12"
-                                 :exp_year  "2034"
-                                 :cvc       "314"}}
-                         api-key)]
+                                 :exp_month "7"
+                                 :exp_year  "2026"
+                                 :cvc       "314"}} api-key)]
 
     (testing "should create a valid payment method"
       (is (= (:object payment-method) "payment_method"))
@@ -22,8 +22,8 @@
   (let [payment-method (create
                          {:type "card"
                           :card {:number    "4242424242424242"
-                                 :exp_month "12"
-                                 :exp_year  "2024"
+                                 :exp_month "7"
+                                 :exp_year  "2026"
                                  :cvc       "314"}} api-key)
         payment-method2 (retrieve (:id payment-method) api-key)]
 

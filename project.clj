@@ -17,7 +17,7 @@
             [lein-bikeshed "0.5.2"]
             [jonase/eastwood "1.4.0"]]
 
-  :dependencies [[com.stripe/stripe-java "19.12.0"]]
+  :dependencies [[com.stripe/stripe-java "20.120.0"]]
 
   :profiles
   {:shared

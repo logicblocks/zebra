@@ -1,11 +1,16 @@
 (ns zebra.payment-methods
-  (:require [zebra.utils :refer [transform-params
-                                 transform-type-data]])
-  (:import [com.stripe.model PaymentMethod]
-           [com.stripe.net RequestOptions]
-           [java.util Map]))
+  (:require
+   [zebra.utils :refer [transform-params]])
+  (:import
+   (com.stripe.model
+     PaymentMethod)
+   (com.stripe.net
+     RequestOptions)
+   (java.util
+     Map)))
 
-(defn payment-method->map [^PaymentMethod x]
+(defn payment-method->map
+  [^PaymentMethod x]
   (with-meta (merge
                {:id     (.getId x)
                 :object (.getObject x)}

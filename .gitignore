@@ -17,8 +17,8 @@ classes/
 checkouts/
 run/
 .bundle
-.rakeTasks
 .direnv
+.clj-kondo/.cache
 
 # OS
 .DS_Store
@@ -30,7 +30,6 @@ pom.xml
 pom.xml.asc
 *.jar
 *.class
-.lein-*/
 lsp/
 .nrepl-port
 
@@ -39,4 +38,9 @@ run/pids/
 run/logs/
 *.log
 .tmp
+.rakeTasks
 
+# Leiningen
+.lein-*/
+.lein-repl-history
+.lein-env
