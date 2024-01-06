@@ -1,4 +1,4 @@
-(defproject io.logicblocks/zebra "0.2.0-RC1"
+(defproject io.logicblocks/zebra "0.2.0-RC2"
   :description "A clojure wrapper for Stripe."
   :url "https://github.com/logicblocks/zebra"
 
